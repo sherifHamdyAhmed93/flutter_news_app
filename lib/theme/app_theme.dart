@@ -38,6 +38,11 @@ class AppTheme{
           fontWeight: FontWeight.w400,
           color: AppColors.secondaryTextColor
       ),
+      labelMedium: GoogleFonts.inter(
+          fontSize: 13,
+          fontWeight: FontWeight.w400,
+          color: AppColors.thirdTextColor
+      )
     ),
   );
 

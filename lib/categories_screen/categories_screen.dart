@@ -5,6 +5,7 @@ import 'package:flutter_news_app/theme/app_theme.dart';
 
 class CategoriesScreen extends StatefulWidget {
    CategoriesScreen({super.key});
+   static const String screenName = 'categories_screen';
 
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();

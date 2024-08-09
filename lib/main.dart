@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/categories_screen/categories_screen.dart';
+import 'package:flutter_news_app/category_screen/category_screen.dart';
+import 'package:flutter_news_app/news_details/news_details_screen.dart';
 import 'package:flutter_news_app/theme/app_theme.dart';
 
 void main() {
@@ -15,7 +17,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.lightTheme,
-      home: CategoriesScreen(),
+      initialRoute: CategoryScreen.screenName,
+      routes: {
+        CategoriesScreen.screenName: (context) => CategoriesScreen(),
+        CategoryScreen.screenName: (context) => CategoryScreen(),
+        NewsDetailsScreen.screenName: (context) => NewsDetailsScreen(),
+      },
     );
   }
 }

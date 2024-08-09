@@ -7,4 +7,7 @@ class AppColors{
   static Color secondaryTextColor = Color(0xff79828B);
   static Color primaryTextColor = Color(0xff42505C);
   static Color sideMenuTextColor = Color(0xff303030);
+  static Color thirdTextColor = Color(0xffA3A3A3);
+
+
 }
