@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/categories_screen.dart';
+import 'package:flutter_news_app/categories_screen/categories_screen.dart';
+import 'package:flutter_news_app/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,11 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const CategoriesScreen(),
+      theme: AppTheme.lightTheme,
+      home: CategoriesScreen(),
     );
   }
 }
