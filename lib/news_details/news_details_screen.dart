@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app/model/article_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
+import 'package:flutter_news_app/util/app_utils.dart';
 
 class NewsDetailsScreen extends StatelessWidget {
   NewsDetailsScreen({super.key});
 
   static const String screenName = 'details_screen';
 
-  String ttst = '''
-  Why are football's biggest clubs starting a new tournament Why are football’s biggest clubs
-  starting a new tournamentWhy are football’s biggest clubs starting a new tournamentWhy are football’s
-  biggest clubs starting a new tournamentWhy are football’s biggest clubs starting a new tournament.
-  Why are football’s biggest clubs starting a new  tournamentWhy are football’s biggest clubs starting
-  a new tournamentWhy are football’s biggest clubs starting a new tournamentWhy are football’s biggest
-  clubs starting a new tournamentWhy are football’s biggest clubs starting a new tournamentWhy are
-  football’s biggest clubs starting a new tournament Why are football’s biggest clubs starting a new tournament
-   Why are football's biggest clubs starting a new tournament Why are football’s biggest clubs
-  starting a new tournamentWhy are football’s biggest clubs starting a new tournamentWhy are football’s
-  biggest clubs starting a new tournamentWhy are football’s biggest clubs starting a new tournament.
-  Why are football’s biggest clubs starting a new  tournamentWhy are football’s biggest clubs starting
-  a new tournamentWhy are football’s biggest clubs starting a new tournamentWhy are football’s biggest
-  clubs starting a new tournamentWhy are football’s biggest clubs starting a new tournamentWhy are
-  football’s biggest clubs starting a new tournament Why are football’s biggest clubs starting a new tournament
-  ''';
 
   @override
   Widget build(BuildContext context) {
+    Article article = ModalRoute.of(context)?.settings.arguments as Article;
+    String rawDate = article.publishedAt ?? '';
+    String formattedDate = AppUtils.formatDate(rawDate);
+
     return Stack(
       children: [
         Container(
@@ -40,7 +30,7 @@ class NewsDetailsScreen extends StatelessWidget {
           // backgroundColor: Colors.transparent,
           appBar: AppBar(
             title: Text(
-              'Sports',
+              article.title ?? '',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             centerTitle: true,
@@ -50,24 +40,23 @@ class NewsDetailsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                    padding: EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Image.asset(
-                      'assets/images/NewsTest.png',
-                      fit: BoxFit.fill,
-                    )),
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(10), // same as the container
+                    child: Image.network(
+                      article.urlToImage ?? '',fit: BoxFit.fill,
+                      // width: double.infinity, // make the image fill the container's width
+                      // height: double.infinity,
+                    )
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
-                  child: Text('BBC news',
+                  padding: const EdgeInsets.only(bottom: 2,top: 4),
+                  child: Text(article.author ?? '',
                       style: Theme.of(context).textTheme.headlineSmall),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: Text(
-                    'Why are footballs biggest clubs starting a new tournament? clubs starting a new tournament?',
+                    article.description ?? '',
                     maxLines: 2,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppColors.primaryTextColor),
                   ),
@@ -80,14 +69,14 @@ class NewsDetailsScreen extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20,bottom: 20),
-                    child: Text(ttst,textAlign: TextAlign.justify,
+                    child: Text(article.content ?? '',textAlign: TextAlign.justify,
                         style: Theme.of(context).textTheme.bodySmall),
                   ),
                 ),
 
                 InkWell(
                   onTap: (){
-
+                    AppUtils.launchURL(article.url ?? '');
                   },
                   child: Text(
                     'View Full Article',
