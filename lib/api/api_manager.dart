@@ -7,12 +7,12 @@ import 'package:http/http.dart' as http;
 
 class ApiManager{
 
-  static Future<SourcesResponseModel> getSourcesByCategory(String categoryName) async {
+  static Future<SourcesResponseModel?> getSourcesByCategory(String categoryName) async {
     var params = {
       'category':categoryName,
       'apiKey':AppConstants.apiKey,
     };
-    var uri = Uri.https(AppConstants.baseUrl,'/v2/top-headlines/sources',params);
+    var uri = Uri.https(AppConstants.baseUrl,AppConstants.sourcesApi,params);
     print(uri);
     try{
       var response = await http.get(uri);
@@ -26,12 +26,12 @@ class ApiManager{
     }
   }
 
-  static Future<ArticlesResponseModel> getArticlesBySource(String sourceName) async {
+  static Future<ArticlesResponseModel?> getArticlesBySource(String sourceName) async {
     var params = {
       'sources':sourceName,
       'apiKey':AppConstants.apiKey,
     };
-    var uri = Uri.https(AppConstants.baseUrl,'/v2/top-headlines',params);
+    var uri = Uri.https(AppConstants.baseUrl,AppConstants.newsApi,params);
     print(uri);
     try{
       var response = await http.get(uri);

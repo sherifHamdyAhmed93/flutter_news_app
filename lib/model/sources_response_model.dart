@@ -8,6 +8,9 @@ class SourcesResponseModel {
 
   SourcesResponseModel.fromJson(dynamic json) {
     status = json['status'];
+    code = json['code'];
+    message = json['message'];
+
     if (json['sources'] != null) {
       sources = [];
       json['sources'].forEach((v) {
@@ -17,14 +20,15 @@ class SourcesResponseModel {
   }
   String? status;
   List<Source>? sources;
-SourcesResponseModel copyWith({  String? status,
-  List<Source>? sources,
-}) => SourcesResponseModel(  status: status ?? this.status,
-  sources: sources ?? this.sources,
-);
+  String? code;
+  String? message;
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
+    map['message'] = message;
+    map['code'] = code;
+
     if (sources != null) {
       map['sources'] = sources?.map((v) => v.toJson()).toList();
     }

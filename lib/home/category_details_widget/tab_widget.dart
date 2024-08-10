@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/category_screen/tab_item.dart';
+import 'package:flutter_news_app/home/category_details_widget/articles_widget.dart';
+import 'package:flutter_news_app/home/category_details_widget/tab_item.dart';
 import 'package:flutter_news_app/model/source_model.dart';
 
 class TabWidget extends StatefulWidget {
-   TabWidget({super.key,required this.sources,required this.onSelectSource});
-   Function onSelectSource;
-
+   TabWidget({super.key,required this.sources});
   List<Source> sources;
 
   @override
@@ -24,7 +23,6 @@ class _TabWidgetState extends State<TabWidget> {
             TabBar(
               onTap: (index){
                 selectedIndex = index;
-                widget.onSelectSource(widget.sources[index]);
                 setState(() {
 
                 });
@@ -37,6 +35,7 @@ class _TabWidgetState extends State<TabWidget> {
                   return TabItem(isSelected: widget.sources.indexOf(e) == selectedIndex,source: e,);
                 }).toList()
             ),
+            Expanded(child: ArticlesWidget(selectedSource: widget.sources[selectedIndex],))
           ],
         )
     );

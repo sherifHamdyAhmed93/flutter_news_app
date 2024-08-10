@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/model/article_model.dart';
 import 'package:flutter_news_app/news_details/news_details_screen.dart';
@@ -25,13 +26,19 @@ class CardItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10), // same as the container
-                child: Image.network(
-                  article.urlToImage ?? '',fit: BoxFit.fill,
-                  // width: double.infinity, // make the image fill the container's width
-                  // height: double.infinity,
-                )
+            Container(
+              clipBehavior: Clip.antiAlias,
+                height: MediaQuery.of(context).size.height*0.25,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10)
+                ), // same as the container
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: article.urlToImage ?? '',
+                  placeholder: (context, url) => Center(child: CircularProgressIndicator(color: AppColors.primaryColor,)),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
             ),
 
             Padding(
