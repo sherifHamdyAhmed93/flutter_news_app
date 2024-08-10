@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app/model/source_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
 
 class TabItem extends StatelessWidget {
-  TabItem({super.key,required this.isSelected});
+  TabItem({super.key,required this.isSelected,required this.source});
 
   bool isSelected;
+  Source source;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class TabItem extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text('ABC News',style: Theme.of(context).textTheme.labelSmall?.copyWith(
+      child: Text(source.name ?? '',style: Theme.of(context).textTheme.labelSmall?.copyWith(
           color: isSelected ? AppColors.whiteColor : AppColors.primaryColor),
       ),
     );
