@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/settings_screen/settings_screen.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyDrawer extends StatelessWidget {
 
   MyDrawer({required this.onSideMenuItemSelect});
@@ -21,7 +20,7 @@ class MyDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.primaryColor,
             ),
-            child: Center(child: Text('News App!',style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AppColors.whiteColor),)),
+            child: Center(child: Text(AppLocalizations.of(context)!.newsApp,style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AppColors.whiteColor),)),
           ),
           ListTile(
             onTap: (){
@@ -32,7 +31,7 @@ class MyDrawer extends StatelessWidget {
               // }
             },
             leading: Icon(Icons.list,size: 30,color: AppColors.primaryTextColor,),
-            title: Text('Categories',style: Theme.of(context).textTheme.titleLarge,),
+            title: Text(AppLocalizations.of(context)!.categories,style: Theme.of(context).textTheme.titleLarge,),
           ),
           ListTile(
             onTap: (){
@@ -43,7 +42,7 @@ class MyDrawer extends StatelessWidget {
               // }
             },
             leading: Icon(Icons.settings,size: 30,color: AppColors.primaryTextColor,),
-            title: Text('Settings',style: Theme.of(context).textTheme.titleLarge,),
+            title: Text(AppLocalizations.of(context)!.settings,style: Theme.of(context).textTheme.titleLarge,),
           ),
         ],
       ),

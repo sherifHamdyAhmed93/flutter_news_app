@@ -4,7 +4,7 @@ import 'package:flutter_news_app/home/category_details_widget/tab_widget.dart';
 import 'package:flutter_news_app/model/category_model.dart';
 import 'package:flutter_news_app/model/source_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CategoryDetailsWidget extends StatefulWidget {
   CategoryDetailsWidget({super.key,required this.selectedCategory});
   Category selectedCategory;
@@ -23,7 +23,7 @@ class _CategoryDetailsWidgetState extends State<CategoryDetailsWidget> {
     var width = MediaQuery.of(context).size.width;
 
     return FutureBuilder(
-        future: ApiManager.getSourcesByCategory(widget.selectedCategory.name),
+        future: ApiManager.getSourcesByCategory(widget.selectedCategory.key),
         builder: (context,snapshot){
           if  (snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
@@ -37,7 +37,7 @@ class _CategoryDetailsWidgetState extends State<CategoryDetailsWidget> {
                   setState(() {
 
                   });
-                }, child: Text('Try Again'))
+                }, child: Text(AppLocalizations.of(context)!.tryAgain))
               ],
             );
           }
@@ -51,7 +51,7 @@ class _CategoryDetailsWidgetState extends State<CategoryDetailsWidget> {
                     setState(() {
 
                     });
-                  }, child: Text('Try Again'))
+                  }, child: Text(AppLocalizations.of(context)!.tryAgain))
                 ],
               );
             }

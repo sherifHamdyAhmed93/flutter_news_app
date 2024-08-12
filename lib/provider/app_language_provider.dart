@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-// import 'shared_preferences.dart';
-
+import 'package:flutter_news_app/shared_preference/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AppLanguageProvider extends ChangeNotifier {
   String currentAppLanguage = 'en';
-  // final PreferencesService _preferencesService = PreferencesService();
+  final PreferencesService _preferencesService = PreferencesService();
 
   AppLanguageProvider() {
     _loadPreferences();
   }
 
   Future<void> _loadPreferences() async {
-    // final lang = await _preferencesService.getLang();
-    currentAppLanguage = 'en';//lang ?? 'en';
+    final lang = await _preferencesService.getLang();
+    currentAppLanguage = lang ?? 'en';
     notifyListeners();
   }
 
@@ -23,7 +21,7 @@ class AppLanguageProvider extends ChangeNotifier {
     } else {
       currentAppLanguage = lang;
     }
-    // _preferencesService.saveLang(currentAppLanguage);
+    _preferencesService.saveLang(currentAppLanguage);
     notifyListeners();
   }
 
@@ -32,8 +30,8 @@ class AppLanguageProvider extends ChangeNotifier {
   }
 
   String getCurrentLanguageName(BuildContext context) {
-    return isCurrentAppLangEn() ? "English" : "Arabic";
-        // ? "${AppLocalizations.of(context)!.english}"
-        // : "${AppLocalizations.of(context)!.arabic}";
+    return isCurrentAppLangEn()
+        ? "${AppLocalizations.of(context)!.english}"
+        : "${AppLocalizations.of(context)!.arabic}";
   }
 }

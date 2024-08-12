@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_news_app/model/article_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
 import 'package:flutter_news_app/util/app_utils.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class NewsDetailsScreen extends StatelessWidget {
   NewsDetailsScreen({super.key});
 
@@ -86,7 +86,7 @@ class NewsDetailsScreen extends StatelessWidget {
                     AppUtils.launchURL(article.url ?? '');
                   },
                   child: Text(
-                    'View Full Article',
+                    AppLocalizations.of(context)!.viewFullArticle,
                     textAlign: TextAlign.end,
 
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppColors.primaryTextColor),

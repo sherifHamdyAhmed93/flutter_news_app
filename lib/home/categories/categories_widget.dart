@@ -5,7 +5,7 @@ import 'package:flutter_news_app/model/category_model.dart';
 import 'package:flutter_news_app/my_drawer/my_drawer.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
 import 'package:flutter_news_app/theme/app_theme.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CategoriesWidget extends StatefulWidget {
   CategoriesWidget({super.key,required this.onSelectCategory});
 
@@ -16,10 +16,13 @@ class CategoriesWidget extends StatefulWidget {
 }
 
 class _CategoriesWidgetState extends State<CategoriesWidget> {
-  final List<Category> categories = Category.getCategories();
+  List<Category> categories = [];
 
   @override
   Widget build(BuildContext context) {
+    // if (categories.isEmpty){
+      categories = Category.getCategories(context);
+    // }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
@@ -32,7 +35,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: Text(
-              'Pick your category\nof interest',
+              AppLocalizations.of(context)!.pickYourCategory,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),

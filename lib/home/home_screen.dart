@@ -4,7 +4,7 @@ import 'package:flutter_news_app/home/category_details_widget/category_details_w
 import 'package:flutter_news_app/model/category_model.dart';
 import 'package:flutter_news_app/my_drawer/my_drawer.dart';
 import 'package:flutter_news_app/settings_screen/settings_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
   static const String screenName = 'home_screen';
@@ -40,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             title: Text(
               selectedSideMenuItem == MyDrawer.settingsTab ?
-              'Settings' :
-              (selectedCategory == null ? 'News App' : selectedCategory!.name ?? ''),
+              AppLocalizations.of(context)!.settings :
+              (selectedCategory == null ? AppLocalizations.of(context)!.newsApp : selectedCategory!.name ?? ''),
               style: Theme.of(context).textTheme.titleMedium,
             ),
             centerTitle: true,

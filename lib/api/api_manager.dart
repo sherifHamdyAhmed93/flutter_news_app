@@ -3,14 +3,19 @@ import 'dart:convert';
 import 'package:flutter_news_app/constants/app_constants.dart';
 import 'package:flutter_news_app/model/articles_response_model.dart';
 import 'package:flutter_news_app/model/sources_response_model.dart';
+import 'package:flutter_news_app/shared_preference/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class ApiManager{
+  static final PreferencesService _preferencesService = PreferencesService();
 
   static Future<SourcesResponseModel?> getSourcesByCategory(String categoryName) async {
+    final String lang = await _preferencesService.getLang() ?? 'en';
+
     var params = {
       'category':categoryName,
       'apiKey':AppConstants.apiKey,
+      'language': lang
     };
     var uri = Uri.https(AppConstants.baseUrl,AppConstants.sourcesApi,params);
     print(uri);
@@ -27,9 +32,11 @@ class ApiManager{
   }
 
   static Future<ArticlesResponseModel?> getArticlesBySource(String sourceName) async {
+    final String lang = await _preferencesService.getLang() ?? 'en';
     var params = {
       'sources':sourceName,
       'apiKey':AppConstants.apiKey,
+      'language': lang
     };
     var uri = Uri.https(AppConstants.baseUrl,AppConstants.newsApi,params);
     print(uri);

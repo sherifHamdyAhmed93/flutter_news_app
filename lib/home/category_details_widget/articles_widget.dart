@@ -3,7 +3,7 @@ import 'package:flutter_news_app/api/api_manager.dart';
 import 'package:flutter_news_app/home/category_details_widget/card_item.dart';
 import 'package:flutter_news_app/model/source_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ArticlesWidget extends StatefulWidget {
   ArticlesWidget({super.key, required this.selectedSource});
 
@@ -30,12 +30,12 @@ class _ArticlesWidgetState extends State<ArticlesWidget> {
               child: Column(
                 children: [
                   Text(snapshot.error.toString()),
-                  TextButton(
+                  ElevatedButton(
                       onPressed: () {
                         ApiManager.getArticlesBySource(
                             widget.selectedSource?.name ?? '');
                       },
-                      child: Text('Try Again'))
+                      child: Text(AppLocalizations.of(context)!.tryAgain))
                 ],
               ),
             );
@@ -50,14 +50,14 @@ class _ArticlesWidgetState extends State<ArticlesWidget> {
                             widget.selectedSource?.name ?? '');
                         setState(() {});
                       },
-                      child: Text('Try Again'))
+                      child: Text(AppLocalizations.of(context)!.tryAgain))
                 ],
               );
             } else {
               if (snapshot.data!.articles!.isEmpty) {
                 return Center(
                     child: Text(
-                  'No Articles Found for this source',
+                      AppLocalizations.of(context)!.noArticlesFound,
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium
