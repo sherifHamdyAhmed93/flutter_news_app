@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/api/api_manager.dart';
 import 'package:flutter_news_app/model/article_model.dart';
