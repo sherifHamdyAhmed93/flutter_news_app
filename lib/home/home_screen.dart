@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/home/categories/categories_widget.dart';
 import 'package:flutter_news_app/home/category_details_widget/category_details_widget.dart';
+import 'package:flutter_news_app/home/search_screen/search_screen.dart';
 import 'package:flutter_news_app/model/category_model.dart';
 import 'package:flutter_news_app/my_drawer/my_drawer.dart';
 import 'package:flutter_news_app/settings_screen/settings_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_news_app/theme/app_colors.dart';
+
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
   static const String screenName = 'home_screen';
@@ -14,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   Category? selectedCategory;
   int selectedSideMenuItem = MyDrawer.categoriesTab;
 
@@ -36,40 +38,53 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Scaffold(
           // backgroundColor: Colors.transparent,
-          drawer: MyDrawer(onSideMenuItemSelect:onSideMenuItemSelect),
+          drawer: MyDrawer(onSideMenuItemSelect: onSideMenuItemSelect),
           appBar: AppBar(
             title: Text(
-              selectedSideMenuItem == MyDrawer.settingsTab ?
-              AppLocalizations.of(context)!.settings :
-              (selectedCategory == null ? AppLocalizations.of(context)!.newsApp : selectedCategory!.name ?? ''),
+              selectedSideMenuItem == MyDrawer.settingsTab
+                  ? AppLocalizations.of(context)!.settings
+                  : (selectedCategory == null
+                      ? AppLocalizations.of(context)!.newsApp
+                      : selectedCategory!.name ?? ''),
               style: Theme.of(context).textTheme.titleMedium,
             ),
             centerTitle: true,
+            actions: MyDrawer.settingsTab == selectedSideMenuItem ?  [] :
+            selectedCategory == null ? [] :
+            [
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(SearchScreen.screenName);
+                  },
+                  icon: Icon(
+                    Icons.search,
+                    size: 35,
+                  ))
+            ],
           ),
-          body:
-          selectedSideMenuItem == MyDrawer.settingsTab ?
-          SettingsScreen()
-              :
-          selectedCategory == null ? CategoriesWidget(onSelectCategory: onSelectCategory,) : CategoryDetailsWidget(selectedCategory: selectedCategory!,),
+          body: selectedSideMenuItem == MyDrawer.settingsTab
+              ? SettingsScreen()
+              : selectedCategory == null
+                  ? CategoriesWidget(
+                      onSelectCategory: onSelectCategory,
+                    )
+                  : CategoryDetailsWidget(
+                      selectedCategory: selectedCategory!,
+                    ),
         )
       ],
     );
   }
 
-  void onSelectCategory(Category newCategory){
+  void onSelectCategory(Category newCategory) {
     selectedCategory = newCategory;
-    setState(() {
-
-    });
+    setState(() {});
   }
 
-  void onSideMenuItemSelect(int item){
+  void onSideMenuItemSelect(int item) {
     Navigator.pop(context);
     selectedSideMenuItem = item;
     selectedCategory = null;
-    setState(() {
-
-    });
+    setState(() {});
   }
-
 }

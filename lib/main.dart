@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/home/home_screen.dart';
+import 'package:flutter_news_app/home/search_screen/search_screen.dart';
 import 'package:flutter_news_app/news_details/news_details_screen.dart';
 import 'package:flutter_news_app/provider/app_language_provider.dart';
 import 'package:flutter_news_app/provider/source_provider.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomeScreen.screenName: (context) => HomeScreen(),
         NewsDetailsScreen.screenName: (context) => NewsDetailsScreen(),
+        SearchScreen.screenName :  (context) => SearchScreen()
       },
     );
   }

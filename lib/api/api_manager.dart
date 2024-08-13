@@ -52,6 +52,27 @@ class ApiManager{
     }
   }
 
+  static Future<ArticlesResponseModel?> getArticlesByword(String searchText) async {
+    final String lang = await _preferencesService.getLang() ?? 'en';
+    var params = {
+      'q':searchText,
+      'apiKey':AppConstants.apiKey,
+      'language': lang
+    };
+    var uri = Uri.https(AppConstants.baseUrl,AppConstants.newsApi,params);
+    print(uri);
+    try{
+      var response = await http.get(uri);
+      var body = response.body;
+      var json = jsonDecode(body);
+      var data = ArticlesResponseModel.fromJson(json);
+      return data;
+    }catch (e){
+      print(e.toString());
+      throw e;
+    }
+  }
+
 
 }
 
