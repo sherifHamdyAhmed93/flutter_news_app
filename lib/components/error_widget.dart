@@ -9,18 +9,21 @@ class TryAgainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(errorMessage ?? AppLocalizations.of(context)!.noArticlesFound),
-          ElevatedButton(
-            onPressed: () {
-              onError.call();
-            },
-            child: Text(AppLocalizations.of(context)!.tryAgain),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(errorMessage ?? AppLocalizations.of(context)!.noArticlesFound),
+            ElevatedButton(
+              onPressed: () {
+                onError.call();
+              },
+              child: Text(AppLocalizations.of(context)!.tryAgain),
+            ),
+          ],
+        ),
       ),
     );
   }
