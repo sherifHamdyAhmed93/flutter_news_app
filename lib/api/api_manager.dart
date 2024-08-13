@@ -52,9 +52,11 @@ class ApiManager{
     }
   }
 
-  static Future<ArticlesResponseModel?> getArticlesByword(String searchText) async {
+  static Future<ArticlesResponseModel?> getArticlesByword({required String searchText,int page = 1}) async {
     final String lang = await _preferencesService.getLang() ?? 'en';
     var params = {
+      'pageSize' : '10',
+      'page' : '$page',
       'q':searchText,
       'apiKey':AppConstants.apiKey,
       'language': lang
