@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_news_app/api/api_manager.dart';
+import 'package:flutter_news_app/components/error_widget.dart';
 import 'package:flutter_news_app/home/category_details_widget/card_item.dart';
 import 'package:flutter_news_app/model/article_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
@@ -145,20 +146,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildErrorState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(_errorMessage ?? AppLocalizations.of(context)!.noArticlesFound),
-          ElevatedButton(
-            onPressed: () {
-              _startNewSearch();
-            },
-            child: Text(AppLocalizations.of(context)!.tryAgain),
-          ),
-        ],
-      ),
-    );
+    return TryAgainWidget(errorMessage: _errorMessage ?? AppLocalizations.of(context)!.noArticlesFound, onError: _startNewSearch);
   }
 
   Widget _buildEmptyState() {

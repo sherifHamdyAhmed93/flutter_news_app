@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/api/api_manager.dart';
+import 'package:flutter_news_app/components/error_widget.dart';
 import 'package:flutter_news_app/home/category_details_widget/card_item.dart';
 import 'package:flutter_news_app/model/source_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
@@ -14,6 +15,8 @@ class ArticlesWidget extends StatefulWidget {
 }
 
 class _ArticlesWidgetState extends State<ArticlesWidget> {
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -26,33 +29,10 @@ class _ArticlesWidgetState extends State<ArticlesWidget> {
               color: AppColors.primaryColor,
             ));
           } else if (snapshot.hasError) {
-            return Center(
-              child: Column(
-                children: [
-                  Text(snapshot.error.toString()),
-                  ElevatedButton(
-                      onPressed: () {
-                        ApiManager.getArticlesBySource(
-                            widget.selectedSource?.name ?? '');
-                      },
-                      child: Text(AppLocalizations.of(context)!.tryAgain))
-                ],
-              ),
-            );
+            return  _buildErrorState(snapshot.error.toString() ?? AppLocalizations.of(context)!.noArticlesFound);
           } else {
             if (snapshot.data!.status == 'error') {
-              return Column(
-                children: [
-                  Text(snapshot.data!.message ?? ''),
-                  ElevatedButton(
-                      onPressed: () {
-                        ApiManager.getArticlesBySource(
-                            widget.selectedSource?.name ?? '');
-                        setState(() {});
-                      },
-                      child: Text(AppLocalizations.of(context)!.tryAgain))
-                ],
-              );
+              return  _buildErrorState(snapshot.data!.message ?? '');
             } else {
               if (snapshot.data!.articles!.isEmpty) {
                 return Center(
@@ -77,4 +57,14 @@ class _ArticlesWidgetState extends State<ArticlesWidget> {
           }
         });
   }
+
+  Widget _buildErrorState(String errorMessage) {
+    return TryAgainWidget(errorMessage: errorMessage ?? AppLocalizations.of(context)!.noArticlesFound, onError: callApi);
+  }
+
+  void callApi(){
+    ApiManager.getArticlesBySource(
+        widget.selectedSource.name ?? '');
+  }
+
 }
