@@ -1,0 +1,23 @@
+{
+"app_title" : "اخبار",
+"settings_tab" : "الاعدادات",
+"language" : "اللغة",
+"arabic" : "العربية",
+"english" : "الانجليزية",
+"night_mode" : "ليلي",
+"day_mode" : "نهاري",
+"categories": "الفئات",
+"settings": "الإعدادات",
+"pickYourCategory": "اختر الفئة التي \nتهمك",
+"newsApp": "تطبيق الأخبار!",
+"viewFullArticle": "عرض المقال بالكامل",
+"searchArticle": "بحث عن مقال",
+"tryAgain": "حاول مرة أخرى",
+"noArticlesFound": "لم يتم العثور على مقالات لهذا المصدر",
+"sports": "رياضة",
+  "science": "علوم",
+  "health": "صحة",
+  "business": "أعمال",
+  "entertainment": "ترفيه",
+  "general": "عام"
+}

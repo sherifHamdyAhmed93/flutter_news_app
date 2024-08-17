@@ -1,0 +1,24 @@
+{
+"app_title" : "News App!",
+"language" : "Language",
+"arabic" : "Arabic",
+"english" : "English",
+"theme" : "Theme",
+"night_mode" : "Dark",
+"day_mode" : "Light",
+"categories": "Categories",
+"settings": "Settings",
+"pickYourCategory": "Pick your category\nof interest",
+"newsApp": "News App!",
+"viewFullArticle": "View Full Article",
+"searchArticle": "Search Article",
+"tryAgain": "Try Again",
+"noArticlesFound": "No Articles Found for this source",
+"sports": "Sports",
+  "science": "Science",
+  "health": "Health",
+  "business": "Business",
+  "entertainment": "Entertainment",
+  "general": "General"
+}
+
