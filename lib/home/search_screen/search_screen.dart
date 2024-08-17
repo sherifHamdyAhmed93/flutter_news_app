@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_news_app/api/api_manager.dart';
 import 'package:flutter_news_app/components/error_widget.dart';
 import 'package:flutter_news_app/home/category_details_widget/card_item.dart';
-import 'package:flutter_news_app/home/search_screen/search_screen_view_model.dart';
-import 'package:flutter_news_app/model/article_model.dart';
+import 'package:flutter_news_app/home/search_screen/search_view_model/search_screen_view_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 class SearchScreen extends StatefulWidget {
