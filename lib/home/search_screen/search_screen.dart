@@ -3,8 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_news_app/api/api_manager.dart';
 import 'package:flutter_news_app/components/error_widget.dart';
 import 'package:flutter_news_app/home/category_details_widget/card_item.dart';
+import 'package:flutter_news_app/home/search_screen/search_screen_view_model.dart';
 import 'package:flutter_news_app/model/article_model.dart';
 import 'package:flutter_news_app/theme/app_colors.dart';
+import 'package:provider/provider.dart';
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -20,13 +22,9 @@ class _SearchScreenState extends State<SearchScreen> {
     content: Text('No more data to load'),
   );
 
-  int page = 1;
-  bool _isLoading = false;
-  List<Article> articles = [];
-  int totalArticlesCount = 0;
   ScrollController scrollController = ScrollController();
-  bool _hasError = false;
-  String? _errorMessage;
+  SearchScreenViewModel viewModel = SearchScreenViewModel();
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +32,6 @@ class _SearchScreenState extends State<SearchScreen> {
     scrollController.addListener(onScroll);
   }
 
-  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +58,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 BorderRadius.circular(20),
               ),
               child: TextField(
-                controller: searchController,
+                controller: viewModel.searchController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                     hintText:
@@ -75,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             size: 30, color: AppColors.primaryColor)),
                     suffixIcon: IconButton(
                         onPressed: () {
-                          _startNewSearch();
+                          viewModel.resetSearch();
                         },
                         icon: Icon(Icons.search,
                             size: 30, color: AppColors.primaryColor)),
@@ -83,55 +80,35 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             )
           ),
-          body: searchController.text.isEmpty ?
-          Center(
-
+          body: ChangeNotifierProvider<SearchScreenViewModel>(
+              create: (context) => viewModel,
+            child: Consumer<SearchScreenViewModel>(
+                builder: (context,viewModel,child){
+                  if (viewModel.errorMessage != null){
+                    return TryAgainWidget(errorMessage: viewModel.errorMessage ?? AppLocalizations.of(context)!.noArticlesFound, onError: viewModel.resetSearch);
+                  }else if(viewModel.articles == null){
+                    return Center(child: CircularProgressIndicator(color: AppColors.primaryColor));
+                  }else{
+                    return _buildSearchResults();
+                  }
+                }
+            ),
           )
-              :
-              _buildBody()
         )
       ],
     );
   }
 
-  void _startNewSearch() {
-    setState(() {
-      page = 1;
-      articles.clear();
-      totalArticlesCount = 0;
-      _isLoading = true;
-      _hasError = false;
-      _errorMessage = null;
-    });
-    _fetchArticles();
-  }
-
-  Widget _buildBody() {
-    if (searchController.text.isEmpty) {
-      return Center(child: Text(AppLocalizations.of(context)!.searchArticle));
-    }
-
-    if (_hasError) {
-      return _buildErrorState();
-    }
-
-    if (articles.isEmpty && _isLoading) {
-      return Center(child: CircularProgressIndicator(color: AppColors.primaryColor));
-    }
-
-    return _buildSearchResults();
-  }
-
   Widget _buildSearchResults() {
-    return articles.isEmpty ?
+    return viewModel.articles!.isEmpty ?
     _buildEmptyState()
         :
     ListView.builder(
       controller: scrollController,
-      itemCount: _isLoading ? articles.length + 1 : articles.length,
+      itemCount: viewModel.isLoadMore ? viewModel.articles!.length + 1 : viewModel.articles!.length,
       itemBuilder: (context, index) {
-        if (index < articles.length) {
-          return CardItem(article: articles[index]);
+        if (index < viewModel.articles!.length) {
+          return CardItem(article: viewModel.articles![index]);
         } else {
           // return totalArticlesCount == articles.length ?
           // Center(child: Text('No more data to load',style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.primaryTextColor),))
@@ -145,10 +122,6 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildErrorState() {
-    return TryAgainWidget(errorMessage: _errorMessage ?? AppLocalizations.of(context)!.noArticlesFound, onError: _startNewSearch);
-  }
-
   Widget _buildEmptyState() {
     return Center(
       child: Text(AppLocalizations.of(context)!.noArticlesFound)
@@ -156,36 +129,11 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void onScroll() {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent && !_isLoading) {
-      setState(() {
-        _isLoading = true;
-      });
-      page++;
-      _fetchArticles();
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent && !viewModel.isLoadMore) {
+     viewModel.loadMore();
     }
   }
 
-  void _fetchArticles() async {
-    try {
-      var response = await ApiManager.getArticlesByword(searchText: searchController.text, page: page);
-      totalArticlesCount = response?.totalResults ?? 0;
-      setState(() {
-        if (response!.articles != null) {
-          articles.addAll(response.articles!);
-          print( '${response.totalResults ?? 0} : ${articles.length}');
-        }
-        _isLoading = false;
-        _hasError = false;
-        _errorMessage = null;
-      });
-    } catch (error) {
-      setState(() {
-        _isLoading = false;
-        _hasError = true;
-        _errorMessage = error.toString();
-      });
-    }
-  }
 }
 
 
